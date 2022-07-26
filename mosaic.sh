@@ -18,10 +18,10 @@ convert "$TMP/edges.png" -auto-level \
         +level 0%,10% \
         -remap "$TMP/blacknwhite.png" "$TMP/points.png"
 
-convert "$TMP/points.png" sparse-color: \
-        | sed "s/ /\n/g" \
-        | grep -E "gray\(255\)" \
-        | sed "s/,gray(255)//g" \
-        | awk -v ln=1 '{printf $0 " #%03X ", ln++}' > "$TMP/sparse-points.txt"
+convert "$1" "$TMP/points.png" \
+        -compose CopyOpacity \
+        -composite "$TMP/points-coloured.png"
+
+convert "$TMP/points-coloured.png" sparse-color: > "$TMP/sparse-points.txt"
 
 convert "$1" -sparse-color Voronoi "$(cat "$TMP/sparse-points.txt")" "$2"
