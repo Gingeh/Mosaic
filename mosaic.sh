@@ -24,4 +24,4 @@ convert "$TMP/points.png" sparse-color: \
         | sed "s/,gray(255)//g" \
         | awk -v ln=1 '{printf $0 " #%03X ", ln++}' > "$TMP/sparse-points.txt"
 
-convert "$1" -sparse-color Voronoi "$(cat "$TMP/sparse-points.txt")" "$2"
+convert "$1" -sparse-color Voronoi "@$TMP/sparse-points.txt" "$2"
